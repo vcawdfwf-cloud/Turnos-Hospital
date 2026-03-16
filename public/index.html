@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Turno - Hospital</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Registro de Turno</h1>
+        <form id="registroForm">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" required>
+            </div>
+            <div class="form-group">
+                <label for="area">Área a visitar:</label>
+                <select id="area" required>
+                    <option value="">Selecciona un área</option>
+                    <option value="Medicina General">Medicina General</option>
+                    <option value="Pediatría">Pediatría</option>
+                    <option value="Ginecología">Ginecología</option>
+                    <option value="Cardiología">Cardiología</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+            <button type="submit">Registrar Turno</button>
+        </form>
+        <div id="mensaje"></div>
+    </div>
+    <script src="js/registro.js"></script>
+</body>
+</html>

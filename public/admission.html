@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Admisión - Hospital</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Panel de Admisión</h1>
+        <div class="admission-panel">
+            <div class="current-turn">
+                <h2>Turno Actual: <span id="turnoActual">-</span></h2>
+            </div>
+            <div class="waiting-list">
+                <h2>Turnos en Espera</h2>
+                <ul id="listaEspera"></ul>
+            </div>
+            <div class="controls">
+                <select id="atendidoPor">
+                    <option value="Admisión 1">Admisión 1</option>
+                    <option value="Admisión 2">Admisión 2</option>
+                    <option value="Admisión 3">Admisión 3</option>
+                    <option value="Admisión 4">Admisión 4</option>
+                </select>
+                <button id="llamarSiguiente">Llamar Siguiente</button>
+                <button id="finalizarTurno">Finalizar Turno</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/admission.js"></script>
+</body>
+</html>
