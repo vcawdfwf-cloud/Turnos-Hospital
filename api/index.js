@@ -45,17 +45,11 @@ module.exports = async (req, res) => {
     let body = {};
     if (req.method === 'POST') {
         try {
-            let bodyData = '';
-            req.on('data', chunk => {
-                bodyData += chunk;
-            });
-            await new Promise((resolve) => {
-                req.on('end', resolve);
-            });
-            body = bodyData ? JSON.parse(bodyData) : {};
+            // In Vercel serverless functions, req.body is already parsed if content-type is application/json
+            body = req.body || {};
         } catch (error) {
-            console.error('Error parsing body:', error);
-            return res.status(400).json({ error: 'Invalid JSON body' });
+            console.error('Error with body:', error);
+            return res.status(400).json({ error: 'Invalid request body' });
         }
     }
 
