@@ -1,7 +1,11 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-// Usar un array en memoria para este prototipo (datos se pierden entre cold starts)
+// En Vercel, el filesystem es efímero; usamos /tmp para persistencia temporal entre invocaciones.
+// En local usamos data.json en el repositorio.
+const DATA_FILE = process.env.VERCEL ? '/tmp/data.json' : path.join(__dirname, '..', 'data.json');
+
+// Datos iniciales (ejemplo) para que el panel muestre algo la primera vez.
 let turnos = [
   {
     id: 1,
@@ -33,27 +37,23 @@ let turnos = [
   }
 ];
 
-const DATA_FILE = path.join(__dirname, '..', 'data.json');
-
-// Cargar datos del archivo (solo para desarrollo local)
+// Cargar datos del archivo (si existe)
 async function loadData() {
-    try {
-        const data = await fs.readFile(DATA_FILE, 'utf8');
-        turnos = JSON.parse(data);
-    } catch (error) {
-        // En producción, usar datos de ejemplo
-        turnos = turnos;
-    }
+  try {
+    const data = await fs.readFile(DATA_FILE, 'utf8');
+    turnos = JSON.parse(data);
+  } catch (error) {
+    // No hay archivo: dejar valores de ejemplo.
+  }
 }
 
-// Guardar datos al archivo (solo para desarrollo local)
+// Guardar datos al archivo (si es posible)
 async function saveData() {
-    try {
-        await fs.writeFile(DATA_FILE, JSON.stringify(turnos, null, 2));
-    } catch (error) {
-        // En producción, no guardar
-        console.log('No se puede guardar en producción');
-    }
+  try {
+    await fs.writeFile(DATA_FILE, JSON.stringify(turnos, null, 2));
+  } catch (error) {
+    // No rompemos el flujo si no se puede escribir (por ejemplo en rutas donde no hay permisos)
+  }
 }
 
 // Función para generar número de turno
