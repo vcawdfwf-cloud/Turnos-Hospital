@@ -44,9 +44,13 @@ module.exports = async (req, res) => {
     // Parse body for POST requests
     let body = {};
     if (req.method === 'POST') {
+        console.log('Raw req.body:', req.body);
+        console.log('Content-Type:', req.headers['content-type']);
         try {
             const bodyString = req.body || '';
+            console.log('Body string:', bodyString);
             body = bodyString ? JSON.parse(bodyString) : {};
+            console.log('Parsed body:', body);
         } catch (error) {
             console.error('Error parsing body:', error);
             return res.status(400).json({ error: 'Invalid JSON body' });
