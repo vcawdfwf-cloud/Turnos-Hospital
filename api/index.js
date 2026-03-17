@@ -57,7 +57,9 @@ module.exports = async (req, res) => {
 
     try {
         if (req.method === 'POST' && pathname === '/api/registrar_turno') {
+            console.log('Processing registrar_turno');
             const { nombre, telefono, area, dispositivo_id } = body;
+            console.log('Body received:', { nombre, telefono, area, dispositivo_id });
 
             if (!nombre || !telefono || !area || !dispositivo_id) {
                 return res.status(400).json({ error: 'Todos los campos son requeridos' });
