@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DATA_FILE = path.join(__dirname, 'data.json');
+const DATA_FILE = path.join(__dirname, '..', 'data.json');
 
 // Middleware
 app.use(cors());
@@ -14,35 +14,35 @@ app.use(bodyParser.json());
 
 // Servir archivos estáticos manualmente para Vercel
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 app.get('/index.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 app.get('/admission.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admission.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'admission.html'));
 });
 
 app.get('/public-screen.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'public-screen.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'public-screen.html'));
 });
 
 app.get('/css/styles.css', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'css', 'styles.css'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'css', 'styles.css'));
 });
 
 app.get('/js/registro.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'js', 'registro.js'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'js', 'registro.js'));
 });
 
 app.get('/js/admission.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'js', 'admission.js'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'js', 'admission.js'));
 });
 
 app.get('/js/public.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'js', 'public.js'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'js', 'public.js'));
 });
 
 let turnos = [];
