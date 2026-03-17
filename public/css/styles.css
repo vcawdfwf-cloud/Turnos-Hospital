@@ -71,6 +71,52 @@ button:hover {
     text-align: center;
 }
 
+.current-turn.active {
+    background-color: #d4edda;
+    border: 2px solid #28a745;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}
+
+.current-patient {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.turno-number {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #007bff;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 3px solid #007bff;
+}
+
+.patient-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+}
+
+.patient-phone, .patient-area, .attended-by {
+    font-size: 1.1em;
+    color: #666;
+}
+
+.no-patient {
+    font-size: 1.2em;
+    color: #999;
+    font-style: italic;
+}
+
 .waiting-list {
     background-color: #fff3cd;
     padding: 20px;
@@ -112,14 +158,76 @@ button:hover {
 
 .controls {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 15px;
     align-items: center;
 }
 
-.controls select {
-    flex: 1;
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
 }
 
-.controls button {
-    flex: 1;
+.control-group label {
+    font-weight: bold;
+    color: #333;
+}
+
+.control-group select {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    min-width: 150px;
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover:not(:disabled) {
+    background-color: #1e7e34;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.btn-success:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
 }

@@ -11,7 +11,8 @@
         <h1>Panel de Admisión</h1>
         <div class="admission-panel">
             <div class="current-turn">
-                <h2>Turno Actual: <span id="turnoActual">-</span></h2>
+                <h2>Paciente Siendo Atendido</h2>
+                <div id="turnoActual"></div>
             </div>
             <div class="waiting-list">
                 <h2>Turnos en Espera</h2>
@@ -22,14 +23,23 @@
                 <ul id="listaAtendidos"></ul>
             </div>
             <div class="controls">
-                <select id="atendidoPor">
-                    <option value="Admisión 1">Admisión 1</option>
-                    <option value="Admisión 2">Admisión 2</option>
-                    <option value="Admisión 3">Admisión 3</option>
-                    <option value="Admisión 4">Admisión 4</option>
-                </select>
-                <button id="llamarSiguiente">Llamar Siguiente</button>
-                <button id="finalizarTurno">Finalizar Turno</button>
+                <div class="control-group">
+                    <label for="atendidoPor">Seleccionar Módulo:</label>
+                    <select id="atendidoPor">
+                        <option value="Admisión 1">Admisión 1</option>
+                        <option value="Admisión 2">Admisión 2</option>
+                        <option value="Admisión 3">Admisión 3</option>
+                        <option value="Admisión 4">Admisión 4</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button id="llamarSiguiente" class="btn-primary">
+                        📢 Llamar Siguiente Paciente
+                    </button>
+                    <button id="finalizarTurno" class="btn-success" disabled>
+                        ✅ Finalizar Atención
+                    </button>
+                </div>
             </div>
         </div>
     </div>

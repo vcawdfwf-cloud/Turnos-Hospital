@@ -9,7 +9,23 @@ async function cargarTurnos() {
 
         // Encontrar turno actual (llamando o atendiendo)
         const turnoActual = turnos.find(t => t.estado === 'llamando' || t.estado === 'atendiendo');
-        document.getElementById('turnoActual').textContent = turnoActual ? turnoActual.turno : '-';
+        
+        const turnoActualDiv = document.getElementById('turnoActual');
+        if (turnoActual) {
+            turnoActualDiv.innerHTML = `
+                <div class="current-patient">
+                    <div class="turno-number">${turnoActual.turno}</div>
+                    <div class="patient-name">${turnoActual.nombre}</div>
+                    <div class="patient-phone">📱 ${turnoActual.telefono}</div>
+                    <div class="patient-area">🏥 ${turnoActual.area}</div>
+                    <div class="attended-by">👤 ${turnoActual.atendido_por}</div>
+                </div>
+            `;
+            turnoActualDiv.classList.add('active');
+        } else {
+            turnoActualDiv.innerHTML = '<div class="no-patient">No hay paciente siendo atendido</div>';
+            turnoActualDiv.classList.remove('active');
+        }
 
         // Lista de espera (pendientes)
         const listaEspera = turnos.filter(t => t.estado === 'pendiente');
@@ -36,6 +52,18 @@ async function cargarTurnos() {
         });
 
         currentTurno = turnoActual ? turnoActual.turno : null;
+        
+        // Actualizar estado de botones
+        const btnLlamar = document.getElementById('llamarSiguiente');
+        const btnFinalizar = document.getElementById('finalizarTurno');
+        
+        if (currentTurno) {
+            btnLlamar.disabled = true;
+            btnFinalizar.disabled = false;
+        } else {
+            btnLlamar.disabled = false;
+            btnFinalizar.disabled = true;
+        }
     } catch (error) {
         console.error('Error cargando turnos:', error);
     }
@@ -67,8 +95,11 @@ document.getElementById('llamarSiguiente').addEventListener('click', async () =>
 
         if (response.ok) {
             cargarTurnos();
+            // Mostrar mensaje de confirmación
+            alert('Paciente llamado exitosamente. Se envió notificación por WhatsApp.');
         } else {
-            alert('Error llamando siguiente turno');
+            const error = await response.json();
+            alert('Error: ' + error.error);
         }
     } catch (error) {
         alert('Error de conexión');
@@ -77,7 +108,7 @@ document.getElementById('llamarSiguiente').addEventListener('click', async () =>
 
 document.getElementById('finalizarTurno').addEventListener('click', async () => {
     if (!currentTurno) {
-        alert('No hay turno actual');
+        alert('No hay turno actual para finalizar');
         return;
     }
 
@@ -92,8 +123,10 @@ document.getElementById('finalizarTurno').addEventListener('click', async () => 
 
         if (response.ok) {
             cargarTurnos();
+            alert('Atención finalizada exitosamente.');
         } else {
-            alert('Error finalizando turno');
+            const error = await response.json();
+            alert('Error: ' + error.error);
         }
     } catch (error) {
         alert('Error de conexión');
