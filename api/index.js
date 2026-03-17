@@ -1,22 +1,59 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-const DATA_FILE = path.join(__dirname, '..', 'data.json');
-let turnos = [];
+// Usar un array en memoria para este prototipo (datos se pierden entre cold starts)
+let turnos = [
+  {
+    id: 1,
+    turno: 'T001',
+    nombre: 'carlos',
+    telefono: '123456789',
+    area: 'Consulta General',
+    hora_registro: '2024-01-01T10:00:00.000Z',
+    hora_llamado: null,
+    hora_fin: null,
+    atendido_por: 'Admisión 2',
+    estado: 'finalizado',
+    dispositivo_id: 'device-1',
+    fecha_operacion: '2024-01-01'
+  },
+  {
+    id: 2,
+    turno: 'T002',
+    nombre: 'Oscar',
+    telefono: '987654321',
+    area: 'Consulta General',
+    hora_registro: '2024-01-01T11:00:00.000Z',
+    hora_llamado: null,
+    hora_fin: null,
+    atendido_por: 'Admisión 2',
+    estado: 'finalizado',
+    dispositivo_id: 'device-2',
+    fecha_operacion: '2024-01-01'
+  }
+];
 
-// Cargar datos del archivo
+const DATA_FILE = path.join(__dirname, '..', 'data.json');
+
+// Cargar datos del archivo (solo para desarrollo local)
 async function loadData() {
     try {
         const data = await fs.readFile(DATA_FILE, 'utf8');
         turnos = JSON.parse(data);
     } catch (error) {
-        turnos = [];
+        // En producción, usar datos de ejemplo
+        turnos = turnos;
     }
 }
 
-// Guardar datos al archivo
+// Guardar datos al archivo (solo para desarrollo local)
 async function saveData() {
-    await fs.writeFile(DATA_FILE, JSON.stringify(turnos, null, 2));
+    try {
+        await fs.writeFile(DATA_FILE, JSON.stringify(turnos, null, 2));
+    } catch (error) {
+        // En producción, no guardar
+        console.log('No se puede guardar en producción');
+    }
 }
 
 // Función para generar número de turno
