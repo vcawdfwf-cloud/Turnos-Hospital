@@ -45,8 +45,10 @@ module.exports = async (req, res) => {
     let body = {};
     if (req.method === 'POST') {
         try {
-            body = JSON.parse(req.body || '{}');
+            const bodyString = req.body || '';
+            body = bodyString ? JSON.parse(bodyString) : {};
         } catch (error) {
+            console.error('Error parsing body:', error);
             return res.status(400).json({ error: 'Invalid JSON body' });
         }
     }
