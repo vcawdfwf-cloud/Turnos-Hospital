@@ -35,7 +35,7 @@ const doc = new Document({
         text: '• Panel de admisión para llamar al siguiente turno y finalizar turno.',
       }),
       new Paragraph({
-        text: '• Pantalla pública que muestra el turno actual y la lista de espera.',
+        text: '• Mensaje automático de WhatsApp al llamar turno (requiere configuración de Twilio).',
       }),
       new Paragraph({ text: '' }),
       new Paragraph({
@@ -130,7 +130,36 @@ const doc = new Document({
       }),
       new Paragraph({ text: '' }),
       new Paragraph({
-        text: '7. Notas adicionales',
+        text: '7. Configuración de WhatsApp',
+        heading: HeadingLevel.HEADING_1,
+      }),
+      new Paragraph({
+        text: 'Para activar el envío automático de mensajes de WhatsApp al llamar turnos:',
+      }),
+      new Paragraph({
+        text: '1) Crear cuenta en Twilio (https://twilio.com)',
+        bullet: {
+          level: 0,
+        },
+      }),
+      new Paragraph({
+        text: '2) Configurar WhatsApp Sandbox en Twilio',
+        bullet: {
+          level: 0,
+        },
+      }),
+      new Paragraph({
+        text: '3) Agregar variables de entorno en Vercel: TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WHATSAPP_NUMBER',
+        bullet: {
+          level: 0,
+        },
+      }),
+      new Paragraph({
+        text: 'Ver WHATSAPP_SETUP.md para instrucciones detalladas.',
+      }),
+      new Paragraph({ text: '' }),
+      new Paragraph({
+        text: '8. Notas adicionales',
         heading: HeadingLevel.HEADING_1,
       }),
       new Paragraph({

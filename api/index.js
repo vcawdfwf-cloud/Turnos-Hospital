@@ -1,30 +1,41 @@
 const fs = require('fs').promises;
 const path = require('path');
-const twilio = require('twilio');
 
-// Configuración Twilio (variables de entorno)
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twilioWhatsAppNumber = process.env.TWILIO_WHATSAPP_NUMBER;
-const client = accountSid && authToken ? twilio(accountSid, authToken) : null;
-
-// Función para enviar mensaje de WhatsApp
+// Función para enviar mensaje de WhatsApp usando CallMeBot (gratuito)
 async function enviarMensajeWhatsApp(telefono, mensaje) {
-    if (!client || !twilioWhatsAppNumber) {
-        console.log('Twilio no configurado, mensaje no enviado:', mensaje);
+    // Usar CallMeBot API gratuita - requiere configuración previa en https://www.callmebot.com/
+    // Para configurar: enviar /start al bot de WhatsApp +34 644 19 01 04
+    
+    const callMeBotApiKey = process.env.CALLMEBOT_API_KEY; // Configurar en Vercel
+    const callMeBotPhone = process.env.CALLMEBOT_PHONE; // Tu número de teléfono
+    
+    if (!callMeBotApiKey || !callMeBotPhone) {
+        console.log('CallMeBot no configurado, mensaje no enviado:', mensaje);
         return;
     }
 
     try {
-        // Formatear número de teléfono (agregar + si no tiene)
-        const numeroFormateado = telefono.startsWith('+') ? telefono : `+${telefono}`;
+        // Formatear número de teléfono (quitar + si tiene)
+        const numeroFormateado = telefono.replace('+', '');
         
-        await client.messages.create({
-            body: mensaje,
-            from: `whatsapp:${twilioWhatsAppNumber}`,
-            to: `whatsapp:${numeroFormateado}`
+        const url = `https://api.callmebot.com/whatsapp.php?phone=${numeroFormateado}&text=${encodeURIComponent(mensaje)}&apikey=${callMeBotApiKey}`;
+        
+        const https = require('https');
+        await new Promise((resolve, reject) => {
+            https.get(url, (res) => {
+                let data = '';
+                res.on('data', (chunk) => data += chunk);
+                res.on('end', () => {
+                    if (res.statusCode === 200 && data.includes('OK')) {
+                        console.log('Mensaje WhatsApp enviado a:', numeroFormateado);
+                        resolve();
+                    } else {
+                        console.error('Error CallMeBot:', data);
+                        reject(new Error(data));
+                    }
+                });
+            }).on('error', reject);
         });
-        console.log('Mensaje WhatsApp enviado a:', numeroFormateado);
     } catch (error) {
         console.error('Error enviando WhatsApp:', error);
     }
