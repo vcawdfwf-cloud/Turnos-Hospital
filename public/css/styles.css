@@ -2,21 +2,39 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #8FAFCC 0%, #5A7FA8 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
     max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: white;
+    margin: 20px;
+    padding: 40px 30px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(46, 74, 115, 0.2);
+}
+
+.header-logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    max-width: 120px;
+    height: auto;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 h1 {
     text-align: center;
-    color: #333;
+    color: #2E4A73;
+    margin-top: 0;
+    font-size: 28px;
+    font-weight: 700;
 }
 
 .form-group {
@@ -25,37 +43,57 @@ h1 {
 
 label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #5A7FA8;
 }
 
 input, select {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 12px;
+    border: 2px solid #E6E6E6;
+    border-radius: 6px;
     box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #8FAFCC;
+    box-shadow: 0 0 0 3px rgba(143, 175, 204, 0.1);
 }
 
 button {
     width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #5A7FA8 0%, #2E4A73 100%);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(46, 74, 115, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
 }
 
 #mensaje {
     margin-top: 20px;
     text-align: center;
     font-weight: bold;
+    color: #2E4A73;
+    padding: 15px;
+    border-radius: 6px;
+    background-color: rgba(143, 175, 204, 0.1);
 }
 
 .admission-panel, .public-screen {
