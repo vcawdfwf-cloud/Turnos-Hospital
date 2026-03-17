@@ -21,12 +21,14 @@ body {
 .header-logo {
     text-align: center;
     margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
 }
 
 .logo {
-    max-width: 120px;
-    height: auto;
-    border-radius: 8px;
+    width: 120px;
+    height: 120px;
+    filter: drop-shadow(0 4px 8px rgba(46, 74, 115, 0.2));
 }
 
 h1 {
