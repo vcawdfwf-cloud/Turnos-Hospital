@@ -146,3 +146,6 @@ app.post('/finalizar_turno', async (req, res) => {
 
 // Exportar para Vercel
 module.exports = app;
+
+// Para Vercel serverless functions
+module.exports.default = app;
