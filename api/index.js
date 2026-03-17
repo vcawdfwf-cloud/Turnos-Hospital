@@ -45,12 +45,7 @@ module.exports = async (req, res) => {
     let body = {};
     if (req.method === 'POST') {
         try {
-            const chunks = [];
-            for await (const chunk of req) {
-                chunks.push(chunk);
-            }
-            const buffer = Buffer.concat(chunks);
-            body = JSON.parse(buffer.toString());
+            body = JSON.parse(req.body || '{}');
         } catch (error) {
             return res.status(400).json({ error: 'Invalid JSON body' });
         }
