@@ -1,5 +1,34 @@
 const fs = require('fs').promises;
 const path = require('path');
+const twilio = require('twilio');
+
+// Configuración Twilio (variables de entorno)
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioWhatsAppNumber = process.env.TWILIO_WHATSAPP_NUMBER;
+const client = accountSid && authToken ? twilio(accountSid, authToken) : null;
+
+// Función para enviar mensaje de WhatsApp
+async function enviarMensajeWhatsApp(telefono, mensaje) {
+    if (!client || !twilioWhatsAppNumber) {
+        console.log('Twilio no configurado, mensaje no enviado:', mensaje);
+        return;
+    }
+
+    try {
+        // Formatear número de teléfono (agregar + si no tiene)
+        const numeroFormateado = telefono.startsWith('+') ? telefono : `+${telefono}`;
+        
+        await client.messages.create({
+            body: mensaje,
+            from: `whatsapp:${twilioWhatsAppNumber}`,
+            to: `whatsapp:${numeroFormateado}`
+        });
+        console.log('Mensaje WhatsApp enviado a:', numeroFormateado);
+    } catch (error) {
+        console.error('Error enviando WhatsApp:', error);
+    }
+}
 
 // En Vercel, el filesystem es efímero; usamos /tmp para persistencia temporal entre invocaciones.
 // En local usamos data.json en el repositorio.
@@ -162,6 +191,10 @@ module.exports = async (req, res) => {
             pendiente.hora_llamado = new Date().toISOString();
             pendiente.atendido_por = atendido_por;
             await saveData();
+
+            // Enviar mensaje de WhatsApp
+            const mensaje = `¡Hola ${pendiente.nombre}! Su turno ${pendiente.turno} está siendo llamado en ${atendido_por}. Por favor diríjase a la recepción.`;
+            await enviarMensajeWhatsApp(pendiente.telefono, mensaje);
 
             res.json({ turno: pendiente.turno });
 
