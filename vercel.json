@@ -1,42 +1,14 @@
 {
   "version": 2,
   "functions": {
-    "api/server.js": {
-      "maxDuration": 10
-    },
-    "api/registrar_turno.js": {
-      "maxDuration": 10
-    },
-    "api/obtener_turnos.js": {
-      "maxDuration": 10
-    },
-    "api/llamar_siguiente.js": {
-      "maxDuration": 10
-    },
-    "api/finalizar_turno.js": {
+    "api/index.js": {
       "maxDuration": 10
     }
   },
   "routes": [
     {
-      "src": "/api/registrar_turno",
-      "dest": "/api/registrar_turno.js"
-    },
-    {
-      "src": "/api/obtener_turnos",
-      "dest": "/api/obtener_turnos.js"
-    },
-    {
-      "src": "/api/llamar_siguiente",
-      "dest": "/api/llamar_siguiente.js"
-    },
-    {
-      "src": "/api/finalizar_turno",
-      "dest": "/api/finalizar_turno.js"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/api/server.js"
+      "dest": "/api/index.js"
     }
   ]
 }
