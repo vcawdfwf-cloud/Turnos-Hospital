@@ -38,15 +38,6 @@ function generarTurno() {
     return `T${numero.toString().padStart(3, '0')}`;
 }
 
-// Función para generar número de turno
-async function generarTurno() {
-    const [rows] = await db.execute(
-        'SELECT COUNT(*) as count FROM turnos WHERE fecha_operacion = CURDATE()'
-    );
-    const numero = rows[0].count + 1;
-    return `T${numero.toString().padStart(3, '0')}`;
-}
-
 // Rutas API
 
 // Registrar turno
