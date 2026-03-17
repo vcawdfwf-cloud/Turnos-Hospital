@@ -13,18 +13,44 @@ async function cargarTurnos() {
 
         // Lista de espera (pendientes)
         const listaEspera = turnos.filter(t => t.estado === 'pendiente');
-        const ul = document.getElementById('listaEspera');
-        ul.innerHTML = '';
+        const ulEspera = document.getElementById('listaEspera');
+        ulEspera.innerHTML = '';
         listaEspera.forEach(turno => {
             const li = document.createElement('li');
             li.textContent = `${turno.turno} - ${turno.nombre}`;
-            ul.appendChild(li);
+            ulEspera.appendChild(li);
+        });
+
+        // Lista de turnos atendidos (finalizados)
+        const listaAtendidos = turnos.filter(t => t.estado === 'finalizado');
+        const ulAtendidos = document.getElementById('listaAtendidos');
+        ulAtendidos.innerHTML = '';
+        listaAtendidos.forEach(turno => {
+            const li = document.createElement('li');
+            const tiempoAtencion = calcularTiempoAtencion(turno.hora_llamado, turno.hora_fin);
+            li.innerHTML = `
+                <span>${turno.turno} - ${turno.nombre}</span>
+                <span>${turno.atendido_por} - ${tiempoAtencion}</span>
+            `;
+            ulAtendidos.appendChild(li);
         });
 
         currentTurno = turnoActual ? turnoActual.turno : null;
     } catch (error) {
         console.error('Error cargando turnos:', error);
     }
+}
+
+function calcularTiempoAtencion(horaLlamado, horaFin) {
+    if (!horaLlamado || !horaFin) return 'N/A';
+    
+    const inicio = new Date(horaLlamado);
+    const fin = new Date(horaFin);
+    const diffMs = fin - inicio;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffSegs = Math.floor((diffMs % 60000) / 1000);
+    
+    return `${diffMins}m ${diffSegs}s`;
 }
 
 document.getElementById('llamarSiguiente').addEventListener('click', async () => {

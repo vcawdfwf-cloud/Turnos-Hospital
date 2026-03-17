@@ -89,6 +89,27 @@ button:hover {
     border-radius: 4px;
 }
 
+.completed-turns {
+    background-color: #d4edda;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.completed-turns ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.completed-turns li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .controls {
     display: flex;
     gap: 10px;
