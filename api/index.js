@@ -41,11 +41,26 @@ module.exports = async (req, res) => {
 
     await loadData();
 
+    // Parse body for POST requests
+    let body = {};
+    if (req.method === 'POST') {
+        try {
+            const chunks = [];
+            for await (const chunk of req) {
+                chunks.push(chunk);
+            }
+            const buffer = Buffer.concat(chunks);
+            body = JSON.parse(buffer.toString());
+        } catch (error) {
+            return res.status(400).json({ error: 'Invalid JSON body' });
+        }
+    }
+
     const { pathname } = new URL(req.url, `http://${req.headers.host}`);
 
     try {
         if (req.method === 'POST' && pathname === '/api/registrar_turno') {
-            const { nombre, telefono, area, dispositivo_id } = req.body;
+            const { nombre, telefono, area, dispositivo_id } = body;
 
             if (!nombre || !telefono || !area || !dispositivo_id) {
                 return res.status(400).json({ error: 'Todos los campos son requeridos' });
@@ -94,7 +109,7 @@ module.exports = async (req, res) => {
             res.json({ turnos: result });
 
         } else if (req.method === 'POST' && pathname === '/api/llamar_siguiente') {
-            const { atendido_por } = req.body;
+            const { atendido_por } = body;
 
             if (!atendido_por) {
                 return res.status(400).json({ error: 'atendido_por es requerido' });
@@ -115,7 +130,7 @@ module.exports = async (req, res) => {
             res.json({ turno: pendiente.turno });
 
         } else if (req.method === 'POST' && pathname === '/api/finalizar_turno') {
-            const { turno } = req.body;
+            const { turno } = body;
 
             if (!turno) {
                 return res.status(400).json({ error: 'turno es requerido' });
