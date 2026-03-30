@@ -169,7 +169,7 @@ document.getElementById('enviarWhatsapp').addEventListener('click', () => {
         const patientPhone = turnoActualDiv.querySelector('.patient-phone').textContent.replace('📱 ', '');
         const message = `Hola ${patientName}, su turno está siendo atendido. Por favor diríjase a la recepción.`;
         const whatsappUrl = `https://wa.me/${patientPhone}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
+        window.location.href = whatsappUrl; // Redirect to WhatsApp message screen
     } else {
         alert('No hay paciente siendo atendido actualmente.');
     }
