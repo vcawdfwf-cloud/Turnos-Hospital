@@ -120,13 +120,11 @@ document.getElementById('llamarSiguiente').addEventListener('click', async () =>
             body: JSON.stringify({ atendido_por })
         });
 
-        if (response.ok) {
+        const data = await response.json();
+        if (data.turno) {
+            startServiceTimer(); // Start service timer when a turn is called
+            startInteractionTimer(); // Start interaction timer
             cargarTurnos();
-            // Mostrar mensaje de confirmación
-            alert('Paciente llamado exitosamente. Se envió notificación por WhatsApp.');
-        } else {
-            const error = await response.json();
-            alert('Error: ' + error.error);
         }
     } catch (error) {
         alert('Error de conexión');
