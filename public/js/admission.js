@@ -168,10 +168,10 @@ document.getElementById('enviarWhatsapp').addEventListener('click', () => {
         const patientName = turnoActualDiv.querySelector('.patient-name').textContent;
         let patientPhone = turnoActualDiv.querySelector('.patient-phone').textContent.replace('📱 ', '').trim();
 
-        // Ensure the phone number is in international format
+        // Detect and add country code if missing
         if (!patientPhone.startsWith('+')) {
-            alert('El número de teléfono debe incluir el código de país (por ejemplo, +52 para México).');
-            return;
+            const defaultCountryCode = '+52'; // Default country code for Mexico
+            patientPhone = `${defaultCountryCode}${patientPhone}`;
         }
 
         const message = `Hola ${patientName}, su turno está siendo atendido. Por favor diríjase a la recepción.`;
