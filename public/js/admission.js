@@ -168,6 +168,9 @@ document.getElementById('enviarWhatsapp').addEventListener('click', () => {
         const patientName = turnoActualDiv.querySelector('.patient-name').textContent;
         let patientPhone = turnoActualDiv.querySelector('.patient-phone').textContent.replace('📱 ', '').trim();
 
+        // Remove invalid characters from the phone number
+        patientPhone = patientPhone.replace(/[^0-9+]/g, '');
+
         // Detect and add country code if missing
         if (!patientPhone.startsWith('+')) {
             const defaultCountryCode = '+52'; // Default country code for Mexico
