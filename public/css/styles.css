@@ -271,3 +271,18 @@ button:active {
     cursor: not-allowed;
     opacity: 0.6;
 }
+
+.welcome-message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 16px;
+            color: #2E4A73;
+            background-color: rgba(143, 175, 204, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-message strong {
+            color: #5A7FA8;
+        }
