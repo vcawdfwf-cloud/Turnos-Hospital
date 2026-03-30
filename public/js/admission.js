@@ -161,3 +161,16 @@ async function finalizarTurno() {
 // Cargar turnos inicialmente y cada 5 segundos
 cargarTurnos();
 setInterval(cargarTurnos, 5000);
+
+document.getElementById('enviarWhatsapp').addEventListener('click', () => {
+    if (currentTurno) {
+        const turnoActualDiv = document.getElementById('turnoActual');
+        const patientName = turnoActualDiv.querySelector('.patient-name').textContent;
+        const patientPhone = turnoActualDiv.querySelector('.patient-phone').textContent.replace('📱 ', '');
+        const message = `Hola ${patientName}, su turno está siendo atendido. Por favor diríjase a la recepción.`;
+        const whatsappUrl = `https://wa.me/${patientPhone}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    } else {
+        alert('No hay paciente siendo atendido actualmente.');
+    }
+});
