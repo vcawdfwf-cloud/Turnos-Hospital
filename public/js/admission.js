@@ -166,10 +166,17 @@ document.getElementById('enviarWhatsapp').addEventListener('click', () => {
     if (currentTurno) {
         const turnoActualDiv = document.getElementById('turnoActual');
         const patientName = turnoActualDiv.querySelector('.patient-name').textContent;
-        const patientPhone = turnoActualDiv.querySelector('.patient-phone').textContent.replace('📱 ', '');
+        let patientPhone = turnoActualDiv.querySelector('.patient-phone').textContent.replace('📱 ', '').trim();
+
+        // Ensure the phone number is in international format
+        if (!patientPhone.startsWith('+')) {
+            alert('El número de teléfono debe incluir el código de país (por ejemplo, +52 para México).');
+            return;
+        }
+
         const message = `Hola ${patientName}, su turno está siendo atendido. Por favor diríjase a la recepción.`;
         const whatsappUrl = `https://wa.me/${patientPhone}?text=${encodeURIComponent(message)}`;
-        window.location.href = whatsappUrl; // Redirect to WhatsApp message screen
+        window.open(whatsappUrl, '_blank');
     } else {
         alert('No hay paciente siendo atendido actualmente.');
     }
