@@ -1,4 +1,6 @@
 let currentTurno = null;
+let startTime = null;
+let interactionStartTime = null;
 
 async function cargarTurnos() {
     try {
@@ -69,16 +71,41 @@ async function cargarTurnos() {
     }
 }
 
+function startServiceTimer() {
+    startTime = new Date();
+}
+
+function startInteractionTimer() {
+    interactionStartTime = new Date();
+}
+
+function stopServiceTimer() {
+    if (startTime) {
+        const endTime = new Date();
+        const duration = Math.floor((endTime - startTime) / 1000); // Duration in seconds
+        startTime = null;
+        return duration;
+    }
+    return 0;
+}
+
+function stopInteractionTimer() {
+    if (interactionStartTime) {
+        const endTime = new Date();
+        const duration = Math.floor((endTime - interactionStartTime) / 1000); // Duration in seconds
+        interactionStartTime = null;
+        return duration;
+    }
+    return 0;
+}
+
 function calcularTiempoAtencion(horaLlamado, horaFin) {
-    if (!horaLlamado || !horaFin) return 'N/A';
-    
     const inicio = new Date(horaLlamado);
     const fin = new Date(horaFin);
-    const diffMs = fin - inicio;
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffSegs = Math.floor((diffMs % 60000) / 1000);
-    
-    return `${diffMins}m ${diffSegs}s`;
+    const diff = Math.floor((fin - inicio) / 1000); // Duration in seconds
+    const minutes = Math.floor(diff / 60);
+    const seconds = diff % 60;
+    return `${minutes}m ${seconds}s`;
 }
 
 document.getElementById('llamarSiguiente').addEventListener('click', async () => {
@@ -106,32 +133,30 @@ document.getElementById('llamarSiguiente').addEventListener('click', async () =>
     }
 });
 
-document.getElementById('finalizarTurno').addEventListener('click', async () => {
-    if (!currentTurno) {
-        alert('No hay turno actual para finalizar');
-        return;
-    }
+async function finalizarTurno() {
+    const btnFinalizar = document.getElementById('finalizarTurno');
+    btnFinalizar.disabled = true;
 
-    try {
-        const response = await fetch('/api/finalizar_turno', {
+    const tiempoAtencion = stopServiceTimer();
+    const tiempoInteraccion = stopInteractionTimer();
+
+    if (currentTurno) {
+        await fetch(`/api/finalizar_turno`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ turno: currentTurno })
+            body: JSON.stringify({
+                turno: currentTurno,
+                tiempoAtencion,
+                tiempoInteraccion,
+            }),
         });
 
-        if (response.ok) {
-            cargarTurnos();
-            alert('Atención finalizada exitosamente.');
-        } else {
-            const error = await response.json();
-            alert('Error: ' + error.error);
-        }
-    } catch (error) {
-        alert('Error de conexión');
+        currentTurno = null;
+        cargarTurnos();
     }
-});
+}
 
 // Cargar turnos inicialmente y cada 5 segundos
 cargarTurnos();
