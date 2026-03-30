@@ -26,8 +26,10 @@ body {
 }
 
 .logo {
-    width: 120px;
-    height: 120px;
+    width: 150px; /* Adjusted width for better visibility */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0 auto; /* Center the logo */
+    display: block; /* Ensure proper centering */
     filter: drop-shadow(0 4px 8px rgba(46, 74, 115, 0.2));
 }
 
