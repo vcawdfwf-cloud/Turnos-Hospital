@@ -131,6 +131,8 @@ document.getElementById('llamarSiguiente').addEventListener('click', async () =>
     }
 });
 
+document.getElementById('finalizarTurno').addEventListener('click', finalizarTurno);
+
 async function finalizarTurno() {
     const btnFinalizar = document.getElementById('finalizarTurno');
     btnFinalizar.disabled = true;
