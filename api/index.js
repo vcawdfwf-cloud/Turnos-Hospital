@@ -198,8 +198,8 @@ module.exports = async (req, res) => {
                 return res.status(404).json({ error: 'No hay turnos pendientes' });
             }
 
+            pendiente.hora_llamado = new Date().toISOString(); // Set the call time
             pendiente.estado = 'llamando';
-            pendiente.hora_llamado = new Date().toISOString();
             pendiente.atendido_por = atendido_por;
             await saveData();
 
@@ -207,7 +207,7 @@ module.exports = async (req, res) => {
             const mensaje = `¡Hola ${pendiente.nombre}! Su turno ${pendiente.turno} está siendo llamado en ${atendido_por}. Por favor diríjase a la recepción.`;
             await enviarMensajeWhatsApp(pendiente.telefono, mensaje);
 
-            res.json({ turno: pendiente.turno });
+            res.json({ turno: pendiente.turno, hora_llamado: pendiente.hora_llamado });
 
         } else if (req.method === 'POST' && pathname === '/api/finalizar_turno') {
             const { turno } = body;
@@ -224,10 +224,10 @@ module.exports = async (req, res) => {
             }
 
             turnoObj.estado = 'finalizado';
-            turnoObj.hora_fin = new Date().toISOString();
+            turnoObj.hora_fin = new Date().toISOString(); // Set the end time
             await saveData();
 
-            res.json({ message: 'Turno finalizado' });
+            res.json({ message: 'Turno finalizado', hora_fin: turnoObj.hora_fin });
 
         } else {
             // Servir archivos estáticos
